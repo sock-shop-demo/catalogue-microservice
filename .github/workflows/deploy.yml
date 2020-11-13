@@ -53,7 +53,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: code-coverage-report
-          path: coverage.out
+          path: /home/runner/work/catalogue-microservice/catalogue-microservice/go/src/github.com/sock-shop-demo/catalogue-microservice/coverage.out
 
       - uses: satackey/action-docker-layer-caching@v0.0.8
         continue-on-error: true
