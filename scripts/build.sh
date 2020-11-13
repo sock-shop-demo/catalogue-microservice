@@ -34,7 +34,7 @@ REPO=${GROUP}/$(basename catalogue);
 
 docker build \
   -v /home/runner/work/catalogue-microservice/catalogue-microservice/go/src/github.com/sock-shop-demo/catalogue-microservice/vendor:/go/src/ \
-  -v /home/runner/work/catalogue-microservice/catalogue-microservice/go/src/github.com/sock-shop-demo/catalogue-microservice/test/..:/go/src/github.com/microservices-demo/catalogue \       
+  -v /home/runner/work/catalogue-microservice/catalogue-microservice/go/src/github.com/sock-shop-demo/catalogue-microservice/test/..:/go/src/github.com/microservices-demo/catalogue \
   -t ${REPO}:${COMMIT} \
   -f $BUILD_DIR/docker/catalogue/Dockerfile $BUILD_DIR/docker/catalogue;
 
