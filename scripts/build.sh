@@ -17,12 +17,6 @@ if [ -z "$COMMIT" ] ; then
     exit 1
 fi
 
-$(docker -v >/dev/null 2>&1)
-if [ $? -eq 0 ]; then
-    DOCKER_CMD=docker
-else
-    DOCKER_CMD=`sudo docker`
-fi
 CODE_DIR=$(cd $SCRIPT_DIR/..; pwd)
 echo $CODE_DIR
  
@@ -38,14 +32,14 @@ cp $CODE_DIR/vendor/manifest $BUILD_DIR/docker/catalogue/vendor/
 
 REPO=${GROUP}/$(basename catalogue);
 
-$DOCKER_CMD build \
+docker build \
   --build-arg BUILD_VERSION=$BUILD_VERSION \
   --build-arg BUILD_DATE=$BUILD_DATE \
   --build-arg COMMIT=$COMMIT \
   -t ${REPO}:${COMMIT} \
   -f $BUILD_DIR/docker/catalogue/Dockerfile $BUILD_DIR/docker/catalogue;
 
-$DOCKER_CMD build \
+docker build \
   -t ${REPO}-db:${COMMIT} \
   -f $BUILD_DIR/docker/catalogue-db/Dockerfile $BUILD_DIR/docker/catalogue-db/;
 
