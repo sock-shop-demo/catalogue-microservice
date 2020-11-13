@@ -40,11 +40,11 @@ jobs:
       - name: Install dependencies
         run: go get -u github.com/FiloSottile/gvt && gvt restore && go get -v github.com/mattn/goveralls
 
-      - name: Build
-        run: ./scripts/build.sh
-
       - name: Unit Test
         run: ./test/test.sh
+
+      - name: Build
+        run: ./scripts/build.sh
 
       # Push to dockerhub
       - name: Push catalogue to Docker Hub
