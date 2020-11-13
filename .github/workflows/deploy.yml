@@ -12,7 +12,7 @@ on:
       - "*"
 
 jobs:
-  test:
+  test_build:
     defaults:
       run:
         working-directory: go/src/github.com/sock-shop-demo/catalogue-microservice
@@ -44,6 +44,12 @@ jobs:
       - name: Unit Test
         run: ./test/test.sh
       
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v1
+        with:
+          name: code-coverage-report
+          path: coverage.out
+
       - uses: satackey/action-docker-layer-caching@v0.0.8
         continue-on-error: true
 
@@ -54,7 +60,19 @@ jobs:
         run: | 
           docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
           docker push lautibringas/catalogue
-      
+
+  sonarCloud:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.sha }}
+      STAGING_KUBERNETES_KUBECONFIG: ${{ secrets.STAGING_KUBERNETES_KUBECONFIG }}
+      PRODU_KUBERNETES_KUBECONFIG: ${{ secrets.PRODU_KUBERNETES_KUBECONFIG }}
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+    
       - name: Get kubectl
         uses: azure/setup-kubectl@v1
     
