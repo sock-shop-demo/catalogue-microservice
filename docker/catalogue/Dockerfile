@@ -28,19 +28,5 @@ RUN	chmod +x /app && \
 
 USER ${SERVICE_USER}
 
-ARG BUILD_DATE
-ARG BUILD_VERSION
-ARG COMMIT
-
-LABEL org.label-schema.vendor="Weaveworks" \
-  org.label-schema.build-date="${BUILD_DATE}" \
-  org.label-schema.version="${BUILD_VERSION}" \
-  org.label-schema.name="Socks Shop: Catalogue" \
-  org.label-schema.description="REST API for Catalogue service" \
-  org.label-schema.url="https://github.com/microservices-demo/catalogue" \
-  org.label-schema.vcs-url="github.com:microservices-demo/catalogue.git" \
-  org.label-schema.vcs-ref="${COMMIT}" \
-  org.label-schema.schema-version="1.0"
-
 CMD ["/app", "-port=80"]
 EXPOSE 80

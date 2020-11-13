@@ -7,16 +7,6 @@ export BUILD_DATE=`date +%Y-%m-%dT%T%z`
 
 SCRIPT_DIR=$(dirname "$0")
 
-if [ -z "$GROUP" ] ; then
-    echo "Cannot find GROUP env var"
-    exit 1
-fi
-
-if [ -z "$COMMIT" ] ; then
-    echo "Cannot find COMMIT env var"
-    exit 1
-fi
-
 CODE_DIR=$(cd $SCRIPT_DIR/..; pwd)
 echo $CODE_DIR
  
@@ -33,7 +23,8 @@ cp $CODE_DIR/vendor/manifest $BUILD_DIR/docker/catalogue/vendor/
 REPO=${GROUP}/$(basename catalogue);
 
 docker build \
-  -t ${REPO}:${COMMIT} \
+  -t lautibringas/catalogue:latest \
+  -t lautibringas/catalogue:${TAG} \
   -f $BUILD_DIR/docker/catalogue/Dockerfile $BUILD_DIR/docker/catalogue;
 
 rm -rf $BUILD_DIR
