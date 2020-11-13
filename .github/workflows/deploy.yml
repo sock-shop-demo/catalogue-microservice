@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TAG: ${{ github.sha }}
+      STAGING_KUBERNETES_KUBECONFIG: ${{ secrets.STAGING_KUBERNETES_KUBECONFIG }}
+      PRODU_KUBERNETES_KUBECONFIG: ${{ secrets.PRODU_KUBERNETES_KUBECONFIG }}
       REPO: catalogue
       GO_VERSION: 1.7.5
       GOPATH: /home/runner/work/catalogue/catalogue/go
@@ -52,3 +54,9 @@ jobs:
         run: | 
           docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
           docker push lautibringas/catalogue
+      
+      - name: Get kubectl
+        uses: azure/setup-kubectl@v1
+    
+      - name: Deploy to staging
+        run: ./deploy/deploy_staging.sh
