@@ -33,14 +33,9 @@ cp $CODE_DIR/vendor/manifest $BUILD_DIR/docker/catalogue/vendor/
 REPO=${GROUP}/$(basename catalogue);
 
 docker build \
-  --build-arg BUILD_VERSION=$BUILD_VERSION \
-  --build-arg BUILD_DATE=$BUILD_DATE \
-  --build-arg COMMIT=$COMMIT \
+  -v /home/runner/work/catalogue-microservice/catalogue-microservice/go/src/github.com/sock-shop-demo/catalogue-microservice/vendor:/go/src/ \
+  -v /home/runner/work/catalogue-microservice/catalogue-microservice/go/src/github.com/sock-shop-demo/catalogue-microservice/test/..:/go/src/github.com/microservices-demo/catalogue \       
   -t ${REPO}:${COMMIT} \
   -f $BUILD_DIR/docker/catalogue/Dockerfile $BUILD_DIR/docker/catalogue;
-
-docker build \
-  -t ${REPO}-db:${COMMIT} \
-  -f $BUILD_DIR/docker/catalogue-db/Dockerfile $BUILD_DIR/docker/catalogue-db/;
 
 rm -rf $BUILD_DIR

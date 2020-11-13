@@ -34,6 +34,12 @@ jobs:
         with:
           go-version: ${{ env.GO_VERSION }}
 
+      - name: Setup PATH
+        run: echo "::add-path::${GOPATH}/bin"
+
+      - name: Install dependencies
+        run: go get -u github.com/FiloSottile/gvt && gvt restore && go get -v github.com/mattn/goveralls
+
       - name: Build
         run: ./scripts/build.sh
 
