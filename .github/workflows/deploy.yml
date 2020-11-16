@@ -62,7 +62,7 @@ jobs:
           docker push lautibringas/catalogue
 
   sonarCloudTrigger:
-    needs: build
+    needs: test_build
     name: SonarCloud Trigger
     runs-on: ubuntu-latest
     steps:
