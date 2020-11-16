@@ -43,11 +43,6 @@ jobs:
 
       - name: Unit Test
         run: ./test/test.sh
-      
-      - name: where  r u coverage
-        run: |
-          ls
-          pwd
         
       - name: Archive code coverage results
         uses: actions/upload-artifact@v1
@@ -66,7 +61,26 @@ jobs:
           docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
           docker push lautibringas/catalogue
 
-  sonarCloud:
+  sonarCloudTrigger:
+    needs: build
+    name: SonarCloud Trigger
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repository
+        uses: actions/checkout@master
+      - name: Download code coverage results
+        uses: actions/download-artifact@v1
+        with:
+          name: code-coverage-report
+          path: bin
+      - name: Analyze with SonarCloud
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+  
+  deploy_staging:
+    needs: test_build
     runs-on: ubuntu-latest
     env:
       TAG: ${{ github.sha }}
