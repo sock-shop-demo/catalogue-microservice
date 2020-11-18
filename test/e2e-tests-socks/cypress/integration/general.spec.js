@@ -1,9 +1,9 @@
-import { baseURL } from '../../../cypress';
+import { baseURL } from '../../cypress';
 
 describe('API Testing with Cypress', () => {
 
    beforeEach(() => {
-       cy.request(`${baseURL}/catalogue`).as('catalogue');
+       cy.request(`${Cypress.env('CYPRESS_baseUrl')}/catalogue`).as('catalogue');
    });
 
    it('Validate the header', () => {
