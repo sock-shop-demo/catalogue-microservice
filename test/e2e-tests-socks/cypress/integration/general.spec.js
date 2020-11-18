@@ -3,7 +3,7 @@ import { baseURL } from '../../cypress';
 describe('API Testing with Cypress', () => {
 
    beforeEach(() => {
-       cy.request(`${Cypress.env('CYPRESS_baseUrl')}/catalogue`).as('catalogue');
+       cy.request('/catalogue').as('catalogue');
    });
 
    it('Validate the header', () => {
