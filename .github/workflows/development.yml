@@ -3,13 +3,7 @@ name: ci
 on:
   push:
     branches:
-      - "main"
-  
-  pull_request:
-    branches:
-      - "*"  
-    tags:
-      - "*"
+      - "dev"
 
 jobs:
   test_build:
@@ -100,3 +94,23 @@ jobs:
     
       - name: Deploy to staging
         run: ./deploy/deploy_staging.sh
+  
+  integration_test:
+    needs: deploy_staging
+    runs-on: ubuntu-latest
+    env:
+      CYPRESS_baseUrl: http://${{secrets.STAGING_CLUSTER_IP}}/
+    steps:
+      - uses: actions/checkout@v2
+      - run: sleep 20
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          working-directory: test/e2e-tests-socks
+      
+      - name: Archive cypress result
+        uses: actions/upload-artifact@v1
+        with:
+          name: cypress-result
+          path: test/e2e-tests-socks/cypress/videos/general.spec.js.mp4
