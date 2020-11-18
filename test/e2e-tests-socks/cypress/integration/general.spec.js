@@ -6,7 +6,7 @@ describe('API Testing with Cypress', () => {
        cy.request('/catalogue').as('catalogue');
    });
 
-   it('Validate the header', () => {
+   it('get catalogue success', () => {
        cy.get('@catalogue').then((resp) => {
         expect(resp.status).to.eq(200)
       });
