@@ -7,16 +7,10 @@ describe('API Testing with Cypress', () => {
    });
 
    it('Validate the header', () => {
-       cy.get('@pikachu')
+       cy.get('@catalogue')
            .its('headers')
            .its('content-type')
            .should('include', 'application/json; charset=utf-8');
-   });
-
-   it('Validate the status code', () => {
-       cy.get('@catalogue')
-           .its('catalogue')
-           .should('equal', 200);
    });
   
 });
